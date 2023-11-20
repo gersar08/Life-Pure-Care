@@ -2,10 +2,10 @@
 
 namespace App\Providers;
 
-use App\Models\User;
 use App\Policies\RolePolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
+use Laravel\Sanctum\Sanctum; // Add this import
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -19,6 +19,11 @@ class AuthServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $this->registerPolicies();
+        
+        // Registro de tokens con expiracion
+        Sanctum::usePersonalAccessTokenModel(PersonalAccessToken::class);
+
+        //Registro de Roles
 
         Gate::define('manage-roles', [RolePolicy::class, 'manageRoles']);
         Gate::define('assign-role', [RolePolicy::class, 'assignRole']);
@@ -29,7 +34,7 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('delete-post', 'App\Policies\PostPolicy@delete');
 
         // Registra la política UserPolicy
-        Gate::define('delete-user', 'App\Policies\UserPolicy@delete');
         Gate::define('update-user', 'App\Policies\UserPolicy@update');
+        Gate::define('delete-user', 'App\Policies\UserPolicy@delete');
     }
 }

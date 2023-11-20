@@ -7,6 +7,7 @@ use App\Http\Controllers\ClientesController;
 use App\Http\Controllers\FacturasController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\PreciosEspecialesController;
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,9 +20,9 @@ use App\Http\Controllers\PreciosEspecialesController;
 |
 */
 
+Route::post('/login', [AuthController::class, 'login']);
 
-Route::middleware('auth:api')->group(function () {
-
+Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('precios', PrecioController::class);
     Route::apiResource('inventarios', InventoryController::class);
     Route::apiResource('clientes', ClientesController::class);
@@ -29,3 +30,4 @@ Route::middleware('auth:api')->group(function () {
     Route::apiResource('user', UserController::class);
     Route::apiResource('precios-especiales', PreciosEspecialesController::class);
 });
+
