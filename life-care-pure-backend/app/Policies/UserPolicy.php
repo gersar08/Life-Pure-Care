@@ -7,22 +7,34 @@ use App\Models\User;
 
 class UserPolicy
 {
-    public function create(User $user)
+    public function viewAny(User $user): bool
     {
-        // Solo los usuarios con el rol de 'admin' pueden crear usuarios
+        // Permite que solo los usuarios con el rol 'admin' puedan ver cualquier usuario
         return $user->hasRole('admin');
     }
-    
-    public function update(User $currentUser, User $user)
+
+    public function view(User $user, User $model): bool
     {
-        // Solo los usuarios con el rol de 'admin' pueden actualizar usuarios
-        // Un usuario puede actualizar su propia información
-        return $currentUser->hasRole('admin') || $currentUser->id === $user->id;
+        // Permite que solo los usuarios con el rol 'admin' puedan ver los detalles de un usuario
+        return $user->hasRole('admin');
     }
-    
-    public function delete(User $currentUser)
+
+    public function create(User $user): bool
     {
-        // Solo los usuarios con el rol de 'admin' pueden eliminar usuarios
-        return $currentUser->hasRole('admin');
+        // Permite que solo los usuarios con el rol 'admin' puedan crear usuarios
+        return $user->hasRole('admin');
+    }
+
+    public function update(User $user, User $model): bool
+    {
+        // Permite que solo los usuarios con el rol 'admin' puedan actualizar usuarios
+        return $user->hasRole('admin');
+    }
+
+    public function delete(User $user, User $model): bool
+    {
+        // Permite que solo los usuarios con el rol 'admin' puedan eliminar usuarios
+
+        return $user->hasRole('admin');
     }
 }

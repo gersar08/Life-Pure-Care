@@ -11,15 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('facturas', function (Blueprint $table) {
+        Schema::create('precios_especiales', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('cliente_id');
-            $table->date('date');
-            $table->string('direction');
-            $table->integer('unique_id'); //Dui o NIT
-            $table->decimal('product_price_unit', 8, 2);
+            $table->foreignId('unique_id')->constrained('clientes');
+            $table->foreignId('producto_id')->constrained('productos');
+            $table->decimal('precio_especial', 8, 2);
             $table->timestamps();
-            $table->foreign('cliente_id')->references('id')->on('clientes');
         });
     }
 
@@ -28,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('facturas');
+        Schema::dropIfExists('precios_especiales');
     }
 };

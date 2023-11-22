@@ -9,33 +9,38 @@ class UserController extends Controller
 {
     public function index()
     {
-        return User::all();
+        $this->authorize('viewAny', User::class);
+        $users = User::all();
+        return response()->json($users);
     }
 
     public function store(Request $request)
     {
         $this->authorize('create', User::class);
-
         $user = User::create($request->all());
-
         return response()->json($user, 201);
     }
 
-    public function update(Request $request, User $user)
+    public function edit(string $id)
     {
+        $user = User::findOrFail($id);
         $this->authorize('update', $user);
-
-        $user->update($request->all());
-
         return response()->json($user);
     }
 
-    public function destroy(User $user)
+    public function update(Request $request, string $id)
     {
+        $user = User::findOrFail($id);
+        $this->authorize('update', $user);
+        $user->update($request->all());
+        return response()->json($user);
+    }
+
+    public function destroy(string $id)
+    {
+        $user = User::findOrFail($id);
         $this->authorize('delete', $user);
-
         $user->delete();
-
-        return response()->json(null, 204);
+        return response()->json(['message' => 'User deleted successfully']);
     }
 }

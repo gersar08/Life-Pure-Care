@@ -10,18 +10,8 @@ class PrecioEspecial extends Model
     use HasFactory;
 
     protected $fillable = [
-        'reference_code',
-        'inventario_id',
-        'precio',
+        'unique_id',
+        'producto_id',
+        'precio_especial',
     ];
-
-    public function cliente()
-    {
-        return $this->belongsTo(Cliente::class, 'reference_code', 'reference_code');
-    }
-
-    public function inventario()
-    {
-        return $this->belongsTo(Inventory::class);
-    }
 }

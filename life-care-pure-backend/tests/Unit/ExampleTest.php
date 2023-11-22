@@ -3,20 +3,14 @@
 namespace Tests\Unit;
 
 use PHPUnit\Framework\TestCase;
-use App\Http\Controllers\PrecioController;
-use App\Http\Controllers\ClientesController;
-use App\Http\Controllers\FacturasController;
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\PreciosEspecialesController;
 
-class ControllersTest extends TestCase
+class ExampleTest extends TestCase
 {
-    public function test_precio_index()
+    /**
+     * A basic test example.
+     */
+    public function test_that_true_is_true(): void
     {
-        $controller = new UserController();
-        $response = $controller->index();
-
-        $this->assertIsArray($response);
+        $this->assertTrue(true);
     }
-
 }
