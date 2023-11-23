@@ -13,12 +13,6 @@ class UserPolicy
         return $user->hasRole('admin');
     }
 
-    public function view(User $user, User $model): bool
-    {
-        // Permite que solo los usuarios con el rol 'admin' puedan ver los detalles de un usuario
-        return $user->hasRole('admin');
-    }
-
     public function create(User $user): bool
     {
         // Permite que solo los usuarios con el rol 'admin' puedan crear usuarios
@@ -27,14 +21,13 @@ class UserPolicy
 
     public function update(User $user, User $model): bool
     {
-        // Permite que solo los usuarios con el rol 'admin' puedan actualizar usuarios
-        return $user->hasRole('admin');
+        // Permite que el usuario actualice su propia cuenta o que un administrador actualice cualquier cuenta
+        return $user->id === $model->id || $user->hasRole('admin');
     }
-
+    
     public function delete(User $user, User $model): bool
     {
-        // Permite que solo los usuarios con el rol 'admin' puedan eliminar usuarios
-
-        return $user->hasRole('admin');
+        // Permite que el usuario elimine su propia cuenta o que un administrador elimine cualquier cuenta
+        return $user->id === $model->id || $user->hasRole('admin');
     }
 }
