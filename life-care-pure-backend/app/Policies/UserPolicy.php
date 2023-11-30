@@ -24,7 +24,7 @@ class UserPolicy
         // Permite que el usuario actualice su propia cuenta o que un administrador actualice cualquier cuenta
         return $user->id === $model->id || $user->hasRole('admin');
     }
-    
+
     public function delete(User $user, User $model): bool
     {
         // Permite que el usuario elimine su propia cuenta o que un administrador elimine cualquier cuenta

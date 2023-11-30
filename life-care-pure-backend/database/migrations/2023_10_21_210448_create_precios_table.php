@@ -8,11 +8,11 @@ class CreatePreciosTable extends Migration
 {
     public function up()
     {
+
         Schema::create('precios', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('unique_id')->constrained('clientes');
-            $table->foreignId('producto_name')->constrained('inventario');
-            $table->decimal('precio_base', 8, 2);
+            $table->string('producto_name');
+            $table->decimal('precio_base', 6, 2);
             $table->timestamps();
         });
     }
