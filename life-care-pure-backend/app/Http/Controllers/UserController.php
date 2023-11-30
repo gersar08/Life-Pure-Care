@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Hash;
 class UserController extends Controller
 {
     public function index()
@@ -17,11 +17,25 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $this->authorize('create', User::class);
-        $user = User::create($request->all());
-
+    
+        // Validar los datos de la solicitud
+        $validatedData = $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'username' => ['required', 'string', 'max:255', 'unique:users'],
+            'password' => ['required', 'string', 'min:8'],
+            'role' => ['required', 'string', 'exists:roles,name'], // Validar el rol
+        ]);
+    
+        // Crear el usuario
+        $user = User::create([
+            'name' => $validatedData['name'],
+            'username' => $validatedData['username'],
+            'password' => Hash::make($validatedData['password']),
+        ]);
+    
         // Asignar el rol al usuario
-        $user->assignRole($request->input('role'));
-
+        $user->assignRole($validatedData['role']);
+    
         return response()->json($user, 201);
     }
 
@@ -40,17 +54,23 @@ class UserController extends Controller
         // Actualizar los datos del usuario
         $user->update($request->all());
 
-        // Si se proporcionó un rol en la solicitud, actualizar el rol del usuario
+        // Si se proporcionó un rol en la solicitud, validar y actualizar el rol del usuario
         if ($request->input('role')) {
+            // Validar el rol
+            $validatedData = $request->validate([
+                'role' => ['required', 'string', 'exists:roles,name'],
+            ]);
+
             // Primero, revocar todos los roles actuales
             $user->roles()->detach();
 
             // Luego, asignar el nuevo rol
-            $user->assignRole($request->input('role'));
+            $user->assignRole($validatedData['role']);
         }
 
         return response()->json($user);
     }
+
 
     public function destroy(string $id)
     {

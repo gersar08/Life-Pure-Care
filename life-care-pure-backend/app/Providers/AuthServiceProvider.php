@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Gate;
 use App\Models\PrecioEspecial;
 use App\Models\User;
 use App\Models\Clientes;
+use App\Models\Precios;
+use App\Models\Producto;
 use App\Policies\PrecioEspecialPolicy;
 use App\Policies\UserPolicy;
 use App\Policies\ClientesPolicy;
@@ -17,6 +19,9 @@ class AuthServiceProvider extends ServiceProvider
         PrecioEspecial::class => PrecioEspecialPolicy::class,
         User::class => UserPolicy::class,
         Clientes::class => ClientesPolicy::class,
+        Inventario::class => InventarioPolicy::class,
+        Precios::class => PreciosPolicy::class,
+        Producto::class => ProductoPolicy::class,
     ];
 
     public function boot()
