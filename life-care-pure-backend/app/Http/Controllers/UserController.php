@@ -20,17 +20,23 @@ class UserController extends Controller
 
         // Validar los datos de la solicitud
         $validatedData = $request->validate([
-            'name' => 'required|string|max:255',
-            'user_name' => 'required|string|max:255|unique:users',
-            'password' => 'required|string|min:8',
-            'rol' => 'required|string|max:255',
+            'name' => ['required', 'string', 'max:255'],
+            'username' => ['required', 'string', 'max:255', 'unique:users'],
+            'password' => ['required', 'string', 'min:8'],
+            'role' => ['required', 'string', 'exists:roles,name'], // Validar el rol
         ]);
 
-        $validatedData['password'] = Hash::make($validatedData['password']);
+        // Crear el usuario
+        $user = User::create([
+            'name' => $validatedData['name'],
+            'username' => $validatedData['username'],
+            'password' => Hash::make($validatedData['password']),
+        ]);
 
-        $user = User::create($validatedData);
+        // Asignar el rol al usuario
+        $user->assignRole($validatedData['role']);
 
-        return response()->json(['user' => $user], 201);
+        return response()->json($user, 201);
     }
 
     public function edit(string $id)

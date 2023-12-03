@@ -3,51 +3,27 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use App\Models\User;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
     public function login(Request $request)
     {
-        $rules = [
-            'user_name' => 'required|string',
-            'password' => 'required|string'
-        ];
-        $validator = Validator::make($request->input(), $rules);
-        if ($validator->fails()) {
-            return response()->json([
-                'status' => 'error 5',
-                'errors' => $validator->errors()->all()
-            ], 400);
+        $credentials = $request->only('user_name', 'password');
+
+        if (Auth::attempt($credentials)) {
+            $user = User::find(1); //El error se soluciona aqui cambiando el parametro
+            $token = $user->createToken('user_name')->plainTextToken;
+            return response()->json(['token' => $token], 200);
+        } else {
+            return response()->json(['error' => 'Unauthorised'], 401);
         }
-
-        $user = User::where('user_name', $request->user_name)->first();
-
-        if (!$user || !Hash::check($request->password, $user->password)) {
-            return response()->json([
-                'status' => 'error',
-                'errors' => [
-                    'Usuario o contraseña incorrectos'
-                ]
-            ], 401);
-        }
-
-        return response()->json([
-            'status' => 'success',
-            'data' => $user->createToken('auth_token')->plainTextToken
-        ], 200);
     }
 
     public function logout(Request $request)
     {
         $request->user()->currentAccessToken()->delete();
-
-        return response()->json([
-            'status' => 'success',
-            'message' => 'Logout successful'
-        ], 200);
+        return response()->json(['message' => 'Logged out'], 200);
     }
 }
