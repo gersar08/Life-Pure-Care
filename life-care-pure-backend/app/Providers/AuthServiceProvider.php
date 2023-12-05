@@ -11,7 +11,10 @@ use App\Models\Precios;
 use App\Models\Producto;
 use App\Policies\PrecioEspecialPolicy;
 use App\Policies\UserPolicy;
+use App\Policies\InventarioPolicy;
 use App\Policies\ClientesPolicy;
+use App\Policies\PreciosPolicy;
+use App\Policies\ProductoPolicy;
 
 class AuthServiceProvider extends ServiceProvider
 {

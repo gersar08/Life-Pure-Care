@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+
 class UserController extends Controller
 {
     public function index()
@@ -13,7 +14,16 @@ class UserController extends Controller
         $users = User::all();
         return response()->json($users);
     }
+    public function search($field, $query)
+    {
+        $user = User::where($field, $query)->first();
 
+        if ($user) {
+            return response()->json($user);
+        } else {
+            return response()->json(['message' => 'User not found'], 404);
+        }
+    }
     public function store(Request $request)
     {
         $this->authorize('create', User::class);
@@ -31,6 +41,7 @@ class UserController extends Controller
             'name' => $validatedData['name'],
             'username' => $validatedData['username'],
             'password' => Hash::make($validatedData['password']),
+            'role' => $validatedData['role']
         ]);
 
         // Asignar el rol al usuario
@@ -39,12 +50,6 @@ class UserController extends Controller
         return response()->json($user, 201);
     }
 
-    public function edit(string $id)
-    {
-        $user = User::findOrFail($id);
-        $this->authorize('update', $user);
-        return response()->json($user);
-    }
 
     public function update(Request $request, string $id)
     {

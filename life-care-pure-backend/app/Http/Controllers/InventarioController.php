@@ -17,7 +17,16 @@ class InventarioController extends Controller
 
         return response()->json($inventario);
     }
+    public function search($field, $query)
+    {
+        $inventario = Inventario::where($field, $query)->first();
 
+        if ($inventario) {
+            return response()->json($inventario);
+        } else {
+            return response()->json(['message' => 'User not found'], 404);
+        }
+    }
     public function store(Request $request)
     {
         $this->authorize('create', Inventario::class);
@@ -31,13 +40,6 @@ class InventarioController extends Controller
         $item = Inventario::create($validatedData);
 
         return response()->json($item, 201);
-    }
-
-    public function show(Inventario $inventario)
-    {
-        $this->authorize('view', $inventario);
-
-        return response()->json($inventario);
     }
 
     public function update(Request $request, Inventario $inventario)

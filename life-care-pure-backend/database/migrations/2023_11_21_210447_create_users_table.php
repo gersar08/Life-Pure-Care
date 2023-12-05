@@ -13,7 +13,8 @@ class CreateUsersTable extends Migration
             $table->string('name');
             $table->string('user_name')->unique();
             $table->string('password');
-            $table->enum('role', ['admin', 'usuario'])->default('usuario');
+            $table->string('role');
+
             $table->timestamps();
         });
     }

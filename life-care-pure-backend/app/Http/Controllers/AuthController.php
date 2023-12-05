@@ -5,20 +5,33 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
 {
     public function login(Request $request)
     {
-        $credentials = $request->only('user_name', 'password');
-
-        if (Auth::attempt($credentials)) {
-            $user = User::find(1); //El error se soluciona aqui cambiando el parametro
-            $token = $user->createToken('user_name')->plainTextToken;
-            return response()->json(['token' => $token], 200);
-        } else {
-            return response()->json(['error' => 'Unauthorised'], 401);
+        $rules =[
+            'user_name' => 'required|string',
+            'password' => 'required|string'
+        ];
+        $validator = Validator::make($request->input(), $rules);
+        if($validator->fails()){
+            return response()->json([
+                'status' => false,
+                'errors' => $validator->errors()->all()], 400);
         }
+        $user = User::where('user_name', $request->user_name)->first();
+        if (!$user || !Hash::check($request->password, $user->password)) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Invalid login details'], 401);
+        }
+        return response()->json([
+            'status' => true,
+            'user' => $user,
+            'token' => $user->createToken('token')->plainTextToken], 200);
     }
 
     public function logout(Request $request)

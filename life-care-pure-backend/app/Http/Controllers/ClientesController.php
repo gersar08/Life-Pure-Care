@@ -13,11 +13,15 @@ class ClientesController extends Controller
         $clientes = Clientes::all();
         return response()->json($clientes);
     }
-
-    public function create()
+    public function search($field, $query)
     {
-        $this->authorize('create', Clientes::class);
-        // Aquí va tu código para mostrar el formulario de creación
+        $clientes = Clientes::where($field, $query)->first();
+
+        if ($clientes) {
+            return response()->json($clientes);
+        } else {
+            return response()->json(['message' => 'User not found'], 404);
+        }
     }
 
     public function store(Request $request)
@@ -25,13 +29,6 @@ class ClientesController extends Controller
         $this->authorize('create', Clientes::class);
         $cliente = Clientes::create($request->all());
         return response()->json($cliente, 201);
-    }
-
-    public function edit(string $id)
-    {
-        $cliente = Clientes::findOrFail($id);
-        $this->authorize('update', $cliente);
-        // Aquí va tu código para mostrar el formulario de edición
     }
 
     public function update(Request $request, string $id)

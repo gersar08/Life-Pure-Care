@@ -26,17 +26,29 @@ class PrecioEspecialController extends Controller
         // Devuelve los precios especiales como una respuesta JSON
         return response()->json($preciosEspeciales);
     }
-
-    public function edit($id)
+    public function search($field, $query)
     {
-        $precioEspecial = PrecioEspecial::findOrFail($id);
+        $precioEspecial = PrecioEspecial::where($field, $query)->first();
 
-        if (Gate::denies('update', $precioEspecial)) {
-            abort(403);
+        if ($precioEspecial) {
+            return response()->json($precioEspecial);
+        } else {
+            return response()->json(['message' => 'User not found'], 404);
         }
+    }
+    public function store(Request $request)
+    {
+        $this->authorize('create', Inventario::class);
 
-        // Devuelve el precio especial como una respuesta JSON
-        return response()->json($precioEspecial);
+        $validatedData = $request->validate([
+            'client_id' => ['required', 'string', 'max:255'],
+            'product_name' => ['required', 'string', 'max:255'],
+            'cantidad' => ['required', 'integer'],
+        ]);
+
+        $item = PrecioEspecial::create($validatedData);
+
+        return response()->json($item, 201);
     }
 
     public function update(Request $request, $id)

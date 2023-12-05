@@ -19,12 +19,22 @@ class PreciosController extends Controller
         return response()->json($precios);
     }
 
+    public function search($field, $query)
+    {
+        $precios = Precios::where($field, $query)->first();
+
+        if ($precios) {
+            return response()->json($precios);
+        } else {
+            return response()->json(['message' => 'User not found'], 404);
+        }
+    }
+
     public function store(Request $request)
     {
         $validatedData = $request->validate([
             'producto_id' => ['required', 'integer', 'exists:productos,id'],
             'precio' => ['required', 'numeric'],
-            // Agrega aquí más campos según sea necesario
         ]);
 
         $precio = Precios::create($validatedData);
@@ -32,17 +42,11 @@ class PreciosController extends Controller
         return response()->json($precio, 201);
     }
 
-    public function show(Precios $precio)
-    {
-        return response()->json($precio);
-    }
-
     public function update(Request $request, Precios $precio)
     {
         $validatedData = $request->validate([
             'producto_id' => ['required', 'integer', 'exists:productos,id'],
             'precio' => ['required', 'numeric'],
-            // Agrega aquí más campos según sea necesario
         ]);
 
         $precio->update($validatedData);
