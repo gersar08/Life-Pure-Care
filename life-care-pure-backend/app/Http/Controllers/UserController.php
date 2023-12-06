@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
@@ -31,23 +32,31 @@ class UserController extends Controller
         // Validar los datos de la solicitud
         $validatedData = $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'username' => ['required', 'string', 'max:255', 'unique:users'],
+            'user_name' => ['required', 'string', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8'],
-            'role' => ['required', 'string', 'exists:roles,name'], // Validar el rol
-        ]);
+            'role' => ['required', 'string'], // Agrega esta línea
 
+        ]);
         // Crear el usuario
         $user = User::create([
             'name' => $validatedData['name'],
-            'username' => $validatedData['username'],
+            'user_name' => $validatedData['user_name'],
             'password' => Hash::make($validatedData['password']),
-            'role' => $validatedData['role']
+            'role' => $validatedData['role'],
         ]);
 
-        // Asignar el rol al usuario
-        $user->assignRole($validatedData['role']);
+        // Crear el rol si no existe
+        if (array_key_exists('role', $validatedData)) {
+            $roleName = $validatedData['role']; // Obtiene el rol de los datos validados
+            $role = Role::firstOrCreate(['guard_name' => 'web', 'name' => $roleName]);
 
-        return response()->json($user, 201);
+            // Asignar el rol al usuario
+            $user->assignRole($role); // Asigna el rol al usuario
+        } else {
+            // Maneja el caso en que la clave 'role' no existe en $validatedData
+            return response()->json(['error' => 'No se proporcionó un rol'], 400);
+        }
+        return response()->json(['message' => 'Usuario creado exitosamente'], 201);
     }
 
 
