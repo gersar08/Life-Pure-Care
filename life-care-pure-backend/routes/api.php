@@ -14,6 +14,7 @@ use App\Http\Controllers\PreciosController;
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\PrecioEspecialController;
 use App\Http\Controllers\RegistroVentasDailyController;
+use App\Http\Controllers\RegistroVentasWeeklyController;
 
 // Ruta para iniciar sesión
 Route::post('/login', [AuthController::class, 'login']);
@@ -59,11 +60,17 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/precio-especial/search/{field}/{query}', [PrecioEspecialController::class, 'search']);
     Route::delete('/precio-especial/{id}', [PrecioEspecialController::class, 'destroy']);
 
-    Route::post('/registro', [RegistroVentasDailyController::class, 'store']);
-    Route::put('/registro/{id}', [RegistroVentasDailyController::class, 'update']);
-    Route::delete('/registro/{id}', [RegistroVentasDailyController::class, 'destroy']);
-    Route::get('/registro/search', [RegistroVentasDailyController::class, 'search']);
+    Route::post('/registro/daily', [RegistroVentasDailyController::class, 'store']);
+    Route::put('/registro/daily/{id}', [RegistroVentasDailyController::class, 'update']);
+    Route::delete('/registro/daily/{id}', [RegistroVentasDailyController::class, 'destroy']);
+    Route::get('/registro/daily/search', [RegistroVentasDailyController::class, 'search']);
+    Route::get('/registro/daily/view', [RegistroVentasDailyController::class, 'index']);
 
+    Route::post('/registro/weekly', [RegistroVentasWeeklyController::class, 'store']);
+    Route::put('/registro/weekly/{id}', [RegistroVentasWeeklyController::class, 'update']);
+    Route::delete('/registro/weekly/{id}', [RegistroVentasWeeklyController::class, 'destroy']);
+    Route::get('/registro/weekly/search', [RegistroVentasWeeklyController::class, 'search']);
+    Route::get('/registro/weekly/view', [RegistroVentasWeeklyController::class, 'index']);
 
 });
 
