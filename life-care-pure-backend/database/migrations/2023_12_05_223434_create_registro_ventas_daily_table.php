@@ -14,9 +14,12 @@ return new class extends Migration
         Schema::create('RegistroVentasDaily', function (Blueprint $table) {
             $table->id();
             $table->string('cliente_id');
-            $table->unsignedInteger('fardos');
-            $table->unsignedInteger('garrafas');
-            $table->unsignedInteger('pet');
+            $table->unsignedInteger('fardos_in');
+            $table->unsignedInteger('garrafas_in');
+            $table->unsignedInteger('pet_in');
+            $table->unsignedInteger('fardos_out');
+            $table->unsignedInteger('garrafas_out');
+            $table->unsignedInteger('pet_out');
             $table->decimal('total', 10, 2);
             $table->timestamps();
 

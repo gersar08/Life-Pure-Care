@@ -18,6 +18,7 @@ class User extends Authenticatable
     protected $table = 'users';
 
     protected $visible = [
+        'id',
         'name',
         'user_name',
         'role',

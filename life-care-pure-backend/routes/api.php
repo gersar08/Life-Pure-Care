@@ -58,3 +58,4 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/precio-especial/search/{field}/{query}', [PrecioEspecialController::class, 'search']);
     Route::delete('/precio-especial/{id}', [PrecioEspecialController::class, 'destroy']);
 });
+
