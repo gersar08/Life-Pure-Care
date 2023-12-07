@@ -12,7 +12,7 @@ class InventarioPolicy
     public function view(User $user, Inventario $inventario)
     {
         // Todos los usuarios pueden ver el inventario
-        return true;
+        return $user->hasRole('admin');
     }
 
     public function create(User $user)

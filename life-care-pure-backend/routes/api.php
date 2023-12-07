@@ -34,13 +34,13 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/clientes/search/{field}/{query}', [ClientesController::class, 'search']);
     Route::delete('/clientes/{id}', [ClientesController::class, 'destroy']);
 
-    Route::get('/inventario', [InventarioController::class, 'index']);
+    Route::get('/inventario', [InventarioController::class, 'index']); //problema
     Route::put('/inventario/{id}', [InventarioController::class, 'update']);
     Route::post('/inventario', [InventarioController::class, 'store']);
     Route::get('/inventario/search/{field}/{query}', [InventarioController::class, 'search']);
     Route::delete('/inventario/{id}', [InventarioController::class, 'destroy']);
 
-    Route::get('/precios', [PreciosController::class, 'index']);
+    Route::get('/precios', [PreciosController::class, 'index']); //problema
     Route::put('/precios/{id}', [PreciosController::class, 'update']);
     Route::post('/precios', [PreciosController::class, 'store']);
     Route::get('/precios/search/{field}/{query}', [PreciosController::class, 'search']);

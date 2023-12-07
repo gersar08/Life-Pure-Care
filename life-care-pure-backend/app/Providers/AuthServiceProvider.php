@@ -9,6 +9,7 @@ use App\Models\User;
 use App\Models\Clientes;
 use App\Models\Precios;
 use App\Models\Producto;
+use App\Models\Inventario;
 use App\Policies\PrecioEspecialPolicy;
 use App\Policies\UserPolicy;
 use App\Policies\InventarioPolicy;
