@@ -45,17 +45,17 @@ class InventarioController extends Controller
     public function update(Request $request, $id)
     {
         $this->authorize('update', Inventario::class);
-    
+
         $validatedData = $request->validate([
             'product_name' => ['string', 'max:255'],
             'cantidad' => ['integer'],
             // Agrega aquí más campos según sea necesario
         ]);
-    
+
         $inventario = Inventario::findOrFail($id);
         $inventario->fill($validatedData);
         $inventario->save();
-    
+
         return response()->json([
             'inventario' => $inventario,
             'message' => 'Actualizado con éxito'
