@@ -13,6 +13,7 @@ use App\Http\Controllers\InventarioController;
 use App\Http\Controllers\PreciosController;
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\PrecioEspecialController;
+use App\Http\Controllers\RegistroVentasDailyController;
 
 // Ruta para iniciar sesión
 Route::post('/login', [AuthController::class, 'login']);
@@ -57,5 +58,12 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/precio-especial', [PrecioEspecialController::class, 'store']);
     Route::get('/precio-especial/search/{field}/{query}', [PrecioEspecialController::class, 'search']);
     Route::delete('/precio-especial/{id}', [PrecioEspecialController::class, 'destroy']);
+
+    Route::post('/registro', [RegistroVentasDailyController::class, 'store']);
+    Route::put('/registro/{id}', [RegistroVentasDailyController::class, 'update']);
+    Route::delete('/registro/{id}', [RegistroVentasDailyController::class, 'destroy']);
+    Route::get('/registro/search', [RegistroVentasDailyController::class, 'search']);
+
+
 });
 
