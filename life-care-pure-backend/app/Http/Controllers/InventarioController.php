@@ -32,7 +32,7 @@ class InventarioController extends Controller
         $this->authorize('create', Inventario::class);
 
         $validatedData = $request->validate([
-            'nombre' => ['required', 'string', 'max:255'],
+            'product_name' => ['required', 'string', 'max:255'],
             'cantidad' => ['required', 'integer'],
             // Agrega aquí más campos según sea necesario
         ]);
@@ -42,18 +42,20 @@ class InventarioController extends Controller
         return response()->json($item, 201);
     }
 
-    public function update(Request $request, Inventario $inventario)
+    public function update(Request $request, $id)
     {
-        $this->authorize('update', $inventario);
-
+        $this->authorize('update', Inventario::class);
+    
         $validatedData = $request->validate([
-            'nombre' => ['string', 'max:255'],
+            'product_name' => ['string', 'max:255'],
             'cantidad' => ['integer'],
             // Agrega aquí más campos según sea necesario
         ]);
-
-        $inventario->update($validatedData);
-
+    
+        $inventario = Inventario::findOrFail($id);
+        $inventario->fill($validatedData);
+        $inventario->save();
+    
         return response()->json([
             'inventario' => $inventario,
             'message' => 'Actualizado con éxito'
