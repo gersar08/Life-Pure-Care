@@ -47,14 +47,17 @@ class InventarioController extends Controller
         $this->authorize('update', $inventario);
 
         $validatedData = $request->validate([
-            'nombre' => ['required', 'string', 'max:255'],
-            'cantidad' => ['required', 'integer'],
+            'nombre' => ['string', 'max:255'],
+            'cantidad' => ['integer'],
             // Agrega aquí más campos según sea necesario
         ]);
 
         $inventario->update($validatedData);
 
-        return response()->json($inventario);
+        return response()->json([
+            'inventario' => $inventario,
+            'message' => 'Actualizado con éxito'
+        ]);
     }
 
     public function destroy(Inventario $inventario)
