@@ -31,7 +31,6 @@ class RegistroVentasWeeklyController extends Controller
         return response()->json($registro);
     }
 
-
     public function update(Request $request, string $id)
     {
         $registro = RegistroVentasWeekly::findOrFail($id);
@@ -40,6 +39,14 @@ class RegistroVentasWeeklyController extends Controller
         $registro->update($request->all());
 
         return response()->json($registro);
+    }
+
+    public function search(Request $request)
+    {
+        $cliente_id = $request->get('cliente_id');
+        $registros = RegistroVentasWeekly::where('cliente_id', $cliente_id)->get();
+
+        return response()->json($registros);
     }
 
     public function destroy(string $id)
