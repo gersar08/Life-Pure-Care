@@ -17,13 +17,13 @@ class ProductosTableSeeder extends Seeder
         DB::table('productos')->insert([
             [
                 'producto_name' => 'garrafa',
-                'precio' => 2.15
+                'precio_base' => 2.15
             ], [
                 'producto_name' => 'fardo',
-                'precio' => 1.85
+                'precio_base' => 1.85
             ], [
                 'producto_name' => 'pet',
-                'precio' => 4.85
+                'precio_base' => 4.85
             ]
         ]);
     }
