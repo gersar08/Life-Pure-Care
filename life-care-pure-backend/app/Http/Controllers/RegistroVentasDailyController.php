@@ -30,7 +30,13 @@ class RegistroVentasDailyController extends Controller
 
         return response()->json($registro);
     }
+    public function search(Request $request)
+    {
+        $cliente_id = $request->get('cliente_id');
+        $registros = RegistroVentasDaily::where('cliente_id', $cliente_id)->get();
 
+        return response()->json($registros);
+    }
 
     public function update(Request $request, string $id)
     {
