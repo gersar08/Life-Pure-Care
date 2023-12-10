@@ -38,7 +38,7 @@ class PrecioEspecialController extends Controller
     }
     public function store(Request $request)
     {
-        $this->authorize('create', Inventario::class);
+        $this->authorize('create', PrecioEspecial::class);
 
         $validatedData = $request->validate([
             'client_id' => ['required', 'string', 'max:255'],
