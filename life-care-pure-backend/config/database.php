@@ -45,11 +45,11 @@ return [
 
         'mysql' => [
             'driver' => 'mysql',
-            'host' => env('DB_HOST', 'planetScaleHostName'),
-            'port' => env('DB_PORT', 'planetScalePort'),
-            'database' => env('DB_DATABASE', 'planetScaleDatabaseName'),
-            'username' => env('DB_USERNAME', 'planetScaleUsername'),
-            'password' => env('DB_PASSWORD', 'planetScalePassword'),
+            'host' => env('DB_HOST', 'localhost'), // Asegúrate de que el valor sea correcto
+            'port' => env('DB_PORT', '3306'),      // Asegúrate de que el valor sea correcto
+            'database' => env('DB_DATABASE', 'forge'),
+            'username' => env('DB_USERNAME', 'forge'),
+            'password' => env('DB_PASSWORD', ''),
             'unix_socket' => env('DB_SOCKET', ''),
             'charset' => 'utf8mb4',
             'collation' => 'utf8mb4_unicode_ci',
