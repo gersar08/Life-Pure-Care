@@ -37,4 +37,3 @@ class Clientes extends Model
         });
     }
 }
-

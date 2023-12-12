@@ -56,7 +56,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/registro/daily', [RegistroVentasDailyController::class, 'store']);
     Route::put('/registro/daily/{id}', [RegistroVentasDailyController::class, 'update']);
     Route::delete('/registro/daily/{id}', [RegistroVentasDailyController::class, 'destroy']);
-    Route::get('/registro/daily/search', [RegistroVentasDailyController::class, 'search']);
+    Route::get('/registro/daily/search/{field}/{query}', [RegistroVentasDailyController::class, 'search']);
     Route::get('/registro/daily/view', [RegistroVentasDailyController::class, 'index']);
 
     Route::post('/registro/weekly', [RegistroVentasWeeklyController::class, 'store']);

@@ -11,9 +11,18 @@ class RegistroVentasDaily extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['cliente_id', 'fardos', 'garrafas', 'pet', 'total'];
+    protected $fillable = [
+        'cliente_id',
+        'fardos_in',
+        'garrafas_in',
+        'pet_in',
+        'fardos_out',
+        'garrafas_out',
+        'pet_out',
+        'total'
+    ];
     public function cliente()
     {
-        return $this->belongsTo(Cliente::class, 'cliente_id', 'unique_id');
+        return $this->belongsTo(Clientes::class, 'cliente_id', 'unique_id');
     }
 }
