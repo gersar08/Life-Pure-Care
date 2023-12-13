@@ -22,7 +22,6 @@ class RegistroVentasDailyController extends Controller
             'garrafa' => ['integer'],
             'pet' => ['integer'],
             'total' => ['decimal'],
-            // ...
         ]);
 
         // Crear el registro
