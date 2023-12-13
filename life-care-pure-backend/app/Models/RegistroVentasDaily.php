@@ -13,12 +13,9 @@ class RegistroVentasDaily extends Model
 
     protected $fillable = [
         'cliente_id',
-        'fardos_in',
-        'garrafas_in',
-        'pet_in',
-        'fardos_out',
-        'garrafas_out',
-        'pet_out',
+        'fardos',
+        'garrafas',
+        'pet',
         'total'
     ];
     public function cliente()
