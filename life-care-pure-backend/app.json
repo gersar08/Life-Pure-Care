@@ -1,0 +1,35 @@
+{
+    "name": "pure-life-care",
+    "description": "My Heroku App",
+    "repository": "https://github.com/gersar/Life-Pure-Care",
+    "keywords": ["heroku", "app"],
+    "env": {
+        "NODE_ENV": "production",
+        "APP_KEY": {
+            "description": "Una clave secreta para tu aplicación",
+            "generator": "secret"
+        },
+        "DB_CONNECTION": "pgsql",
+        "DB_HOST": "localhost",
+        "DB_PORT": "5432",
+        "DB_DATABASE": "purelifecare",
+        "DB_USERNAME": "lcarepure",
+        "DB_PASSWORD": "Lifecarepure."
+    },
+    "scripts": {
+        "start": "node index.js",
+        "postdeploy": "php artisan migrate --force"
+    },
+    "addons": [
+        {
+            "plan": "heroku-postgresql",
+            "as": "DATABASE"
+        }
+    ],
+    "formation": {
+        "web": {
+            "quantity": 1,
+            "size": "Free"
+        }
+    }
+}
