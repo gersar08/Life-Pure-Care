@@ -47,9 +47,6 @@
         ],
         "post-create-project-cmd": [
             "@php artisan key:generate --ansi"
-        ],
-         "pre-install-cmd": [
-            "SET COMPOSER_MIRROR_PATH_REPOS=1"
         ]
     },
     "extra": {
